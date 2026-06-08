@@ -767,6 +767,7 @@ CREATE INDEX idx_spins_created_at ON SPINS (created_at);
 -- Table ACMST
 CREATE TABLE ACMST (
     id BIGINT,
+    numero_cuenta VARCHAR(24),
     fecha_apertura DATE,
     fecha_ultima_transaccion DATE,
     saldo_actual DECIMAL(18,2),
@@ -783,6 +784,7 @@ CREATE TABLE ACMST (
     PRIMARY KEY (id)
 );
 CREATE INDEX idx_acmst_pk ON ACMST (id);
+CREATE UNIQUE INDEX idx_acmst_numero_cuenta ON ACMST (numero_cuenta);
 CREATE INDEX idx_acmst_created_at ON ACMST (created_at);
 
 -- Table STPMT
@@ -1182,6 +1184,7 @@ CREATE INDEX idx_cntrldev_created_at ON CNTRLDEV (created_at);
 -- Table DEALS
 CREATE TABLE DEALS (
     id BIGINT,
+    numero_prestamo VARCHAR(30),
     fecha_desembolso DATE,
     fecha_vencimiento DATE,
     monto_original DECIMAL(18,2),
@@ -1200,6 +1203,7 @@ CREATE TABLE DEALS (
     PRIMARY KEY (id)
 );
 CREATE INDEX idx_deals_pk ON DEALS (id);
+CREATE UNIQUE INDEX idx_deals_numero_prestamo ON DEALS (numero_prestamo);
 CREATE INDEX idx_deals_created_at ON DEALS (created_at);
 
 -- Table DLPMT
@@ -1410,6 +1414,7 @@ CREATE INDEX idx_cntrldls_created_at ON CNTRLDLS (created_at);
 -- Table LCMST
 CREATE TABLE LCMST (
     id BIGINT,
+    numero_carta_credito VARCHAR(30),
     fecha_emision DATE,
     fecha_vencimiento DATE,
     monto_original DECIMAL(18,2),
@@ -1427,6 +1432,7 @@ CREATE TABLE LCMST (
     PRIMARY KEY (id)
 );
 CREATE INDEX idx_lcmst_pk ON LCMST (id);
+CREATE UNIQUE INDEX idx_lcmst_numero_carta_credito ON LCMST (numero_carta_credito);
 CREATE INDEX idx_lcmst_created_at ON LCMST (created_at);
 
 -- Table LCDOC
@@ -3230,66 +3236,28 @@ COMMENT ON COLUMN USERS.codigo_usuario IS 'Parte de PK';
 COMMENT ON COLUMN USERS.menu IS 'Parte de PK';
 COMMENT ON COLUMN USERS.opcion IS 'Parte de PK';
 
--- PENDING FKs / CHECK MANUAL REVIEW
--- The following FK references are documented but cannot be applied because
--- the target column does not exist in the current DDL or the reference is ambiguous.
--- Review these cases and adjust the schema or documentation before enabling the FK.
-
--- TODO TRANS.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE TRANS ADD CONSTRAINT fk_trans_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO TTRAN.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE TTRAN ADD CONSTRAINT fk_ttran_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+-- RESTORED FKs / REVIEW ACTIVE
+-- The following FK references are now activated based on the documented key fields.
+ALTER TABLE TRANS ADD CONSTRAINT fk_trans_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE TTRAN ADD CONSTRAINT fk_ttran_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE STPMT ADD CONSTRAINT fk_stpmt_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE PBTRN ADD CONSTRAINT fk_pbtrn_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE RCLNB ADD CONSTRAINT fk_rclnb_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE CHMST ADD CONSTRAINT fk_chmst_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE CMRIN ADD CONSTRAINT fk_cmrin_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
+ALTER TABLE DLPMT ADD CONSTRAINT fk_dlpmt_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
+ALTER TABLE DLDRF ADD CONSTRAINT fk_dldrf_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
+ALTER TABLE DLSDE ADD CONSTRAINT fk_dlsde_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
+ALTER TABLE DDCPN ADD CONSTRAINT fk_ddcpn_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
+ALTER TABLE DLITP ADD CONSTRAINT fk_dlitp_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
+ALTER TABLE LCDOC ADD CONSTRAINT fk_lcdoc_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
+ALTER TABLE LCADM ADD CONSTRAINT fk_lcadm_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
+ALTER TABLE LCCOV ADD CONSTRAINT fk_lccov_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
+ALTER TABLE LCDIN ADD CONSTRAINT fk_lcdin_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
+ALTER TABLE APPRV ADD CONSTRAINT fk_apprv_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
+ALTER TABLE LCFEE ADD CONSTRAINT fk_lcfee_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
 
 -- TODO SPINS.cuenta_o_cliente -> CUMST/ACMST.id_cliente/numero_cuenta: Ambiguous reference across CUMST and ACMST
 -- ALTER TABLE SPINS ADD CONSTRAINT fk_spins_cuenta_o_cliente FOREIGN KEY (cuenta_o_cliente) REFERENCES CUMST/ACMST.id_cliente/numero_cuenta;
-
--- TODO STPMT.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE STPMT ADD CONSTRAINT fk_stpmt_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO PBTRN.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE PBTRN ADD CONSTRAINT fk_pbtrn_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO RCLNB.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE RCLNB ADD CONSTRAINT fk_rclnb_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO CHMST.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE CHMST ADD CONSTRAINT fk_chmst_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO CMRIN.numero_cuenta -> ACMST.numero_cuenta: ACMST does not have NUMERO_CUENTA in DDL
--- ALTER TABLE CMRIN ADD CONSTRAINT fk_cmrin_numero_cuenta FOREIGN KEY (numero_cuenta) REFERENCES ACMST(NUMERO_CUENTA);
-
--- TODO DLPMT.numero_prestamo -> DEALS.numero_prestamo: DEALS does not have NUMERO_PRESTAMO in DDL
--- ALTER TABLE DLPMT ADD CONSTRAINT fk_dlpmt_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
-
--- TODO DLDRF.numero_prestamo -> DEALS.numero_prestamo: DEALS does not have NUMERO_PRESTAMO in DDL
--- ALTER TABLE DLDRF ADD CONSTRAINT fk_dldrf_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
-
--- TODO DLSDE.numero_prestamo -> DEALS.numero_prestamo: DEALS does not have NUMERO_PRESTAMO in DDL
--- ALTER TABLE DLSDE ADD CONSTRAINT fk_dlsde_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
-
--- TODO DDCPN.numero_prestamo -> DEALS.numero_prestamo: DEALS does not have NUMERO_PRESTAMO in DDL
--- ALTER TABLE DDCPN ADD CONSTRAINT fk_ddcpn_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
-
--- TODO DLITP.numero_prestamo -> DEALS.numero_prestamo: DEALS does not have NUMERO_PRESTAMO in DDL
--- ALTER TABLE DLITP ADD CONSTRAINT fk_dlitp_numero_prestamo FOREIGN KEY (numero_prestamo) REFERENCES DEALS(NUMERO_PRESTAMO);
-
--- TODO LCDOC.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE LCDOC ADD CONSTRAINT fk_lcdoc_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
-
--- TODO LCADM.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE LCADM ADD CONSTRAINT fk_lcadm_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
-
--- TODO LCCOV.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE LCCOV ADD CONSTRAINT fk_lccov_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
-
--- TODO LCDIN.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE LCDIN ADD CONSTRAINT fk_lcdin_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
-
--- TODO APPRV.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE APPRV ADD CONSTRAINT fk_apprv_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
-
--- TODO LCFEE.numero_carta_credito -> LCMST.numero_carta_credito: LCMST does not have NUMERO_CARTA_CREDITO in DDL
--- ALTER TABLE LCFEE ADD CONSTRAINT fk_lcfee_numero_carta_credito FOREIGN KEY (numero_carta_credito) REFERENCES LCMST(NUMERO_CARTA_CREDITO);
 
 COMMIT;
