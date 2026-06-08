@@ -1758,425 +1758,111 @@ CREATE TABLE INPUT (
     descripcion_cuenta VARCHAR(120),
     naturaleza_cuenta VARCHAR(20),
     nivel_cuenta VARCHAR(50),
-    /*
-    Metadata y Comentarios (generado):
-    Este bloque contiene los `COMMENT ON TABLE`, `LABEL ON TABLE` y `COMMENT ON COLUMN`
-    para las tablas del esquema, más una sección de propuestas de FK. 
-    Se han activado sólo las FKs que pueden validarse por nombre/columnas en el DDL;
-    otras propuestas quedan como sentencias comentadas para revisión manual.
-    */
-
-    -- BEGIN METADATA
-
-    -- (Comentarios y labels generados para todas las tablas)
-
-    -- CNOFT
-    COMMENT ON TABLE CNOFT IS 'Archivo Maestro de Tablas de Datos Comunes (ver Documentacion_IBMi/Base_Datos/estructura_bd.md).';
-    LABEL ON TABLE CNOFT IS 'CNOFT - Maestro Tablas Comunes';
-    COMMENT ON COLUMN CNOFT.codigo_tabla IS 'Parte de PK: codigo_tabla';
-    COMMENT ON COLUMN CNOFT.idioma IS 'Parte de PK: idioma';
-
-    -- CNOFC
-    COMMENT ON TABLE CNOFC IS 'Archivo de Referencias del Sistema o de Datos Comunes.';
-    LABEL ON TABLE CNOFC IS 'CNOFC - Referencias Sistema';
-    COMMENT ON COLUMN CNOFC.codigo_tabla IS 'Parte de PK: codigo_tabla';
-    COMMENT ON COLUMN CNOFC.codigo_registro IS 'Parte de PK: codigo_registro';
-
-    -- MLNCT
-    COMMENT ON TABLE MLNCT IS 'Archivo de patrones/formatos de Notificaciones a Clientes (Usos).';
-    LABEL ON TABLE MLNCT IS 'MLNCT - Patrones Notificaciones';
-    COMMENT ON COLUMN MLNCT.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN MLNCT.codigo_de_notificacion IS 'Parte de PK: codigo_de_notificacion';
-    COMMENT ON COLUMN MLNCT.nivel IS 'Parte de PK: nivel';
-    COMMENT ON COLUMN MLNCT.idioma IS 'Parte de PK: idioma';
-    COMMENT ON COLUMN MLNCT.secuencia IS 'Parte de PK: secuencia';
-
-    -- MLNOT
-    COMMENT ON TABLE MLNOT IS 'Archivo que contiene los datos a imprimir en la notificación (Usos).';
-    LABEL ON TABLE MLNOT IS 'MLNOT - Datos Notificacion';
-    COMMENT ON COLUMN MLNOT.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN MLNOT.fecha_proceso IS 'Parte de PK: fecha_proceso';
-    COMMENT ON COLUMN MLNOT.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN MLNOT.codigo_de_notificacion IS 'Parte de PK: codigo_de_notificacion';
-    COMMENT ON COLUMN MLNOT.nivel IS 'Parte de PK: nivel';
-
-    -- HSNOT
-    COMMENT ON TABLE HSNOT IS 'Histórico de Datos impresos en las Notificaciones.';
-    LABEL ON TABLE HSNOT IS 'HSNOT - Historico Notif';
-    COMMENT ON COLUMN HSNOT.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN HSNOT.fecha_proceso IS 'Parte de PK: fecha_proceso';
-    COMMENT ON COLUMN HSNOT.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN HSNOT.codigo_de_notificacion IS 'Parte de PK: codigo_de_notificacion';
-    COMMENT ON COLUMN HSNOT.nivel IS 'Parte de PK: nivel';
-
-    -- HEAD
-    COMMENT ON TABLE HEAD IS 'Archivo títulos de reportes.';
-    LABEL ON TABLE HEAD IS 'HEAD - Titulos Reportes';
-    COMMENT ON COLUMN HEAD.nombre_printer_file IS 'Parte de PK: nombre_printer_file';
-    COMMENT ON COLUMN HEAD.secuencia IS 'Parte de PK: secuencia';
-
-    -- MSSGS
-    COMMENT ON TABLE MSSGS IS 'Archivo mensajes de Errores.';
-    LABEL ON TABLE MSSGS IS 'MSSGS - Mensajes Errores';
-    COMMENT ON COLUMN MSSGS.id IS 'Parte de PK: id';
-
-    -- HOLYD
-    COMMENT ON TABLE HOLYD IS 'Archivo de Feriados.';
-    LABEL ON TABLE HOLYD IS 'HOLYD - Feriados';
-    COMMENT ON COLUMN HOLYD.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN HOLYD.fecha IS 'Parte de PK: fecha';
-
-    -- APCLS
-    COMMENT ON TABLE APCLS IS 'Archivo Maestro de Productos.';
-    LABEL ON TABLE APCLS IS 'APCLS - Productos';
-    COMMENT ON COLUMN APCLS.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN APCLS.codigo_de_producto IS 'Parte de PK: codigo_de_producto';
-
-    -- RATES
-    COMMENT ON TABLE RATES IS 'Archivos de Tasas de Cambio.';
-    LABEL ON TABLE RATES IS 'RATES - Tasas Cambio';
-    COMMENT ON COLUMN RATES.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN RATES.codigo_moneda IS 'Parte de PK: codigo_moneda';
-
-    -- RTRNS
-    COMMENT ON TABLE RTRNS IS 'Historia de Tasas de Cambio.';
-    LABEL ON TABLE RTRNS IS 'RTRNS - Historia Tasas';
-    COMMENT ON COLUMN RTRNS.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN RTRNS.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN RTRNS.fecha IS 'Parte de PK: fecha';
-
-    -- HLHIS
-    COMMENT ON TABLE HLHIS IS 'Archivo histórico de Cambios en Retenciones.';
-    LABEL ON TABLE HLHIS IS 'HLHIS - Historico Retenciones';
-    COMMENT ON COLUMN HLHIS.id IS 'Parte de PK: id';
-
-    -- PRENA
-    COMMENT ON TABLE PRENA IS 'Archivo de Descripciones de Programas en Inglés.';
-    LABEL ON TABLE PRENA IS 'PRENA - Descripciones Programas EN';
-    COMMENT ON COLUMN PRENA.nombre_programa IS 'Parte de PK: nombre_programa';
-
-    -- PRENS
-    COMMENT ON TABLE PRENS IS 'Archivo de Descripciones de Programas en Español.';
-    LABEL ON TABLE PRENS IS 'PRENS - Descripciones Programas ES';
-    COMMENT ON COLUMN PRENS.nombre_programa IS 'Parte de PK: nombre_programa';
-
-    -- UT500
-    COMMENT ON TABLE UT500 IS 'Agenda Personalizada.';
-    LABEL ON TABLE UT500 IS 'UT500 - Agenda';
-    COMMENT ON COLUMN UT500.codigo_usuario IS 'Parte de PK: codigo_usuario';
-    COMMENT ON COLUMN UT500.fecha IS 'Parte de PK: fecha';
-
-    -- UT510
-    COMMENT ON TABLE UT510 IS 'Mensajes de Usuarios.';
-    LABEL ON TABLE UT510 IS 'UT510 - Mensajes Usuarios';
-    COMMENT ON COLUMN UT510.codigo_usuario IS 'Parte de PK: codigo_usuario';
-    COMMENT ON COLUMN UT510.fecha IS 'Parte de PK: fecha';
-
-    -- MICRF
-    COMMENT ON TABLE MICRF IS 'Archivo que contiene los reportes salvados en Microficha.';
-    LABEL ON TABLE MICRF IS 'MICRF - Reportes Microficha';
-    COMMENT ON COLUMN MICRF.tipo_formulario IS 'Parte de PK: tipo_formulario';
-    COMMENT ON COLUMN MICRF.nombre_reporte IS 'Parte de PK: nombre_reporte';
-    COMMENT ON COLUMN MICRF.secuencia IS 'Parte de PK: secuencia';
-
-    -- IBSDD
-    COMMENT ON TABLE IBSDD IS 'Diccionario de Datos del IBS.';
-    LABEL ON TABLE IBSDD IS 'IBSDD - Diccionario IBS';
-    COMMENT ON COLUMN IBSDD.id IS 'Parte de PK: id';
-
-    -- IBTBL
-    COMMENT ON TABLE IBTBL IS 'Archivo de Referencias Cruzadas para manejo de Intersucursales.';
-    LABEL ON TABLE IBTBL IS 'IBTBL - Referencias Intersucursales';
-    COMMENT ON COLUMN IBTBL.id IS 'Parte de PK: id';
-
-    -- TRANS
-    COMMENT ON TABLE TRANS IS 'Archivo histórico de transacciones.';
-    LABEL ON TABLE TRANS IS 'TRANS - Transacciones';
-    COMMENT ON COLUMN TRANS.id_transaccion IS 'Parte de PK: id_transaccion';
-
-    -- TRDSC
-    COMMENT ON TABLE TRDSC IS 'Descripciones Adicionales a las Transacciones (TRANS).';
-    LABEL ON TABLE TRDSC IS 'TRDSC - Descripciones Trans';
-    COMMENT ON COLUMN TRDSC.numero_registro_relativo IS 'Parte de PK: numero_registro_relativo';
-    COMMENT ON COLUMN TRDSC.secuencia IS 'Parte de PK: secuencia';
-
-    COMMENT ON TABLE UT510 IS 'Mensajes de Usuarios.';
-    LABEL ON TABLE UT510 IS 'UT510 - Mensajes Usuarios';
-    COMMENT ON COLUMN UT510.codigo_usuario IS 'Parte de PK: codigo_usuario';
-    COMMENT ON COLUMN UT510.fecha IS 'Parte de PK: fecha';
-
-    -- MICRF
-    COMMENT ON TABLE MICRF IS 'Archivo que contiene los reportes salvados en Microficha.';
-    LABEL ON TABLE MICRF IS 'MICRF - Reportes Microficha';
-    COMMENT ON COLUMN MICRF.tipo_formulario IS 'Parte de PK: tipo_formulario';
-    COMMENT ON COLUMN MICRF.nombre_reporte IS 'Parte de PK: nombre_reporte';
-    COMMENT ON COLUMN MICRF.secuencia IS 'Parte de PK: secuencia';
-
-    -- IBSDD
-    COMMENT ON TABLE IBSDD IS 'Diccionario de Datos del IBS.';
-    LABEL ON TABLE IBSDD IS 'IBSDD - Diccionario IBS';
-    COMMENT ON COLUMN IBSDD.id IS 'Parte de PK: id';
-
-    -- IBTBL
-    COMMENT ON TABLE IBTBL IS 'Archivo de Referencias Cruzadas para manejo de Intersucursales.';
-    LABEL ON TABLE IBTBL IS 'IBTBL - Referencias Intersucursales';
-    COMMENT ON COLUMN IBTBL.id IS 'Parte de PK: id';
-
-    -- TRANS
-    COMMENT ON TABLE TRANS IS 'Archivo histórico de transacciones.';
-    LABEL ON TABLE TRANS IS 'TRANS - Transacciones';
-    COMMENT ON COLUMN TRANS.id_transaccion IS 'Parte de PK: id_transaccion';
-
-    -- TRDSC
-    COMMENT ON TABLE TRDSC IS 'Descripciones Adicionales a las Transacciones (TRANS).';
-    LABEL ON TABLE TRDSC IS 'TRDSC - Descripciones Trans';
-    COMMENT ON COLUMN TRDSC.numero_registro_relativo IS 'Parte de PK: numero_registro_relativo';
-    COMMENT ON COLUMN TRDSC.secuencia IS 'Parte de PK: secuencia';
-
-    -- TTRAN
-    COMMENT ON TABLE TTRAN IS 'Archivo Maestro de Transacciones del día.';
-    LABEL ON TABLE TTRAN IS 'TTRAN - Transacciones Dia';
-    COMMENT ON COLUMN TTRAN.id_transaccion_dia IS 'Parte de PK: id_transaccion_dia';
-    COMMENT ON COLUMN TTRAN.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN TTRAN.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN TTRAN.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN TTRAN.cuenta_contable IS 'Parte de PK: cuenta_contable';
-    COMMENT ON COLUMN TTRAN.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN TTRAN.fecha IS 'Parte de PK: fecha';
-
-    -- CIFXF
-    COMMENT ON TABLE CIFXF IS 'Relación de operaciones con clientes.';
-    LABEL ON TABLE CIFXF IS 'CIFXF - Operaciones Clientes';
-    COMMENT ON COLUMN CIFXF.id IS 'Parte de PK: id';
-
-    -- CNTRLCNT
-    COMMENT ON TABLE CNTRLCNT IS 'Parámetros Generales del Sistema.';
-    LABEL ON TABLE CNTRLCNT IS 'CNTRLCNT - Parametros Sistema';
-    COMMENT ON COLUMN CNTRLCNT.codigo_banco IS 'Parte de PK: codigo_banco';
-
-    -- CNTRLBRN
-    COMMENT ON TABLE CNTRLBRN IS 'Archivo de Sucursales.';
-    LABEL ON TABLE CNTRLBRN IS 'CNTRLBRN - Sucursales';
-    COMMENT ON COLUMN CNTRLBRN.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CNTRLBRN.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-
-    -- CNTRLNUM
-    COMMENT ON TABLE CNTRLNUM IS 'Control de Numeración Automática de Operaciones.';
-    LABEL ON TABLE CNTRLNUM IS 'CNTRLNUM - Control Numeracion';
-    COMMENT ON COLUMN CNTRLNUM.codigo_aplicacion IS 'Parte de PK: codigo_aplicacion';
-    COMMENT ON COLUMN CNTRLNUM.tipo_cuenta IS 'Parte de PK: tipo_cuenta';
-
-    -- CNTRLTAX
-    COMMENT ON TABLE CNTRLTAX IS 'Definiciones para el manejo de cobro de impuestos.';
-    LABEL ON TABLE CNTRLTAX IS 'CNTRLTAX - Impuestos';
-    COMMENT ON COLUMN CNTRLTAX.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CNTRLTAX.codigo_impuesto IS 'Parte de PK: codigo_impuesto';
-
-    -- CUMST
-    COMMENT ON TABLE CUMST IS 'Archivo de Maestro de Clientes.';
-    LABEL ON TABLE CUMST IS 'CUMST - Clientes';
-    COMMENT ON COLUMN CUMST.id_cliente IS 'Parte de PK: id_cliente';
-
-    -- CUMAD
-    COMMENT ON TABLE CUMAD IS 'Archivo de Direcciones de Correo y Beneficiarios de Operaciones/Clientes.';
-    LABEL ON TABLE CUMAD IS 'CUMAD - Direcciones Clientes';
-    COMMENT ON COLUMN CUMAD.id_cliente_operacion IS 'Parte de PK: id_cliente_operacion';
-    COMMENT ON COLUMN CUMAD.tipo_registro IS 'Parte de PK: tipo_registro';
-    COMMENT ON COLUMN CUMAD.secuencia IS 'Parte de PK: secuencia';
-
-    -- CUMPR
-    COMMENT ON TABLE CUMPR IS 'Archivo Maestro de Palabras Reservadas para búsquedas de clientes.';
-    LABEL ON TABLE CUMPR IS 'CUMPR - Palabras Reservadas';
-    COMMENT ON COLUMN CUMPR.palabra IS 'Parte de PK: palabra';
-
-    -- CUMSD
-    COMMENT ON TABLE CUMSD IS 'Archivo Maestro de Clientes para búsqueda mediante string.';
-    LABEL ON TABLE CUMSD IS 'CUMSD - Indice Busqueda Clientes';
-    COMMENT ON COLUMN CUMSD.id_cliente IS 'Parte de PK: id_cliente';
-
-    -- SPINS
-    COMMENT ON TABLE SPINS IS 'Archivo de Instrucciones especiales.';
-    LABEL ON TABLE SPINS IS 'SPINS - Instrucciones';
-    COMMENT ON COLUMN SPINS.tipo_informacion IS 'Parte de PK: tipo_informacion';
-    COMMENT ON COLUMN SPINS.cuenta_o_cliente IS 'Parte de PK: cuenta_o_cliente';
-    COMMENT ON COLUMN SPINS.secuencia IS 'Parte de PK: secuencia';
-
-    -- ACMST
-    COMMENT ON TABLE ACMST IS 'Archivo Maestro de Cuentas de Detalle.';
-    LABEL ON TABLE ACMST IS 'ACMST - Cuentas Detalle';
-    COMMENT ON COLUMN ACMST.id IS 'Parte de PK: id';
-
-    -- STPMT
-    COMMENT ON TABLE STPMT IS 'Ordenes de No Pago de Cheques.';
-    LABEL ON TABLE STPMT IS 'STPMT - Ordenes No Pago';
-    COMMENT ON COLUMN STPMT.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN STPMT.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN STPMT.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN STPMT.cuenta_contable IS 'Parte de PK: cuenta_contable';
-    COMMENT ON COLUMN STPMT.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN STPMT.secuencia IS 'Parte de PK: secuencia';
-
-    -- UNCOL
-    COMMENT ON TABLE UNCOL IS 'Maestro de Retenciones.';
-    LABEL ON TABLE UNCOL IS 'UNCOL - Retenciones';
-    COMMENT ON COLUMN UNCOL.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN UNCOL.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN UNCOL.numero_cuenta IS 'Parte de PK: numero_cuenta';
-
-    -- PBTRN
-    COMMENT ON TABLE PBTRN IS 'Transacciones de Libretas de Ahorro.';
-    LABEL ON TABLE PBTRN IS 'PBTRN - Libretas Transacciones';
-    COMMENT ON COLUMN PBTRN.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN PBTRN.fecha IS 'Parte de PK: fecha';
-    COMMENT ON COLUMN PBTRN.hora IS 'Parte de PK: hora';
-
-    -- OFMST
-    COMMENT ON TABLE OFMST IS 'Maestro de Cheques Certificados y Cheques de Gerencia.';
-    LABEL ON TABLE OFMST IS 'OFMST - Cheques Certificados';
-    COMMENT ON COLUMN OFMST.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN OFMST.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN OFMST.numero_cheque IS 'Parte de PK: numero_cheque';
-
-    -- RCLNB
-    COMMENT ON TABLE RCLNB IS 'Transacciones de Cuentas Reconciliables.';
-    LABEL ON TABLE RCLNB IS 'RCLNB - Tx Reconciliables';
-    COMMENT ON COLUMN RCLNB.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN RCLNB.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN RCLNB.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN RCLNB.cuenta_contable IS 'Parte de PK: cuenta_contable';
-    COMMENT ON COLUMN RCLNB.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN RCLNB.fecha IS 'Parte de PK: fecha';
-
-    -- TLMST
-    COMMENT ON TABLE TLMST IS 'Maestro de Cajeros.';
-    LABEL ON TABLE TLMST IS 'TLMST - Cajeros';
-    COMMENT ON COLUMN TLMST.codigo_de_cajero IS 'Parte de PK: codigo_de_cajero';
-    COMMENT ON COLUMN TLMST.codigo_moneda IS 'Parte de PK: codigo_moneda';
-
-    -- TDRCR
-    COMMENT ON TABLE TDRCR IS 'Maestro de Transacciones de Cajero.';
-    LABEL ON TABLE TDRCR IS 'TDRCR - Transacciones Cajero';
-    COMMENT ON COLUMN TDRCR.codigo_de_transaccion IS 'Parte de PK: codigo_de_transaccion';
-
-    -- AUDIT
-    COMMENT ON TABLE AUDIT IS 'Detalle diario de transacciones de caja.';
-    LABEL ON TABLE AUDIT IS 'AUDIT - Auditoria Caja';
-    COMMENT ON COLUMN AUDIT.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN AUDIT.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN AUDIT.codigo_cajero IS 'Parte de PK: codigo_cajero';
-    COMMENT ON COLUMN AUDIT.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN AUDIT.referencia IS 'Parte de PK: referencia';
-
-    -- CHMST
-    COMMENT ON TABLE CHMST IS 'Maestro de Chequeras.';
-    LABEL ON TABLE CHMST IS 'CHMST - Chequeras';
-    COMMENT ON COLUMN CHMST.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CHMST.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN CHMST.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN CHMST.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN CHMST.cheque_inicial IS 'Parte de PK: cheque_inicial';
-
-    -- CHPER
-    COMMENT ON TABLE CHPER IS 'Personalizacion de Chequeras.';
-    LABEL ON TABLE CHPER IS 'CHPER - Personalizacion Chequeras';
-    COMMENT ON COLUMN CHPER.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CHPER.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN CHPER.numero_cuenta IS 'Parte de PK: numero_cuenta';
-
-    -- CHSTS
-    COMMENT ON TABLE CHSTS IS 'Maestro de cambio de estatus a cuentas de detalle.';
-    LABEL ON TABLE CHSTS IS 'CHSTS - Cambio Estatus Cuentas';
-    COMMENT ON COLUMN CHSTS.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CHSTS.codigo_sucursal IS 'Parte de PK: codigo_sucursal';
-    COMMENT ON COLUMN CHSTS.codigo_moneda IS 'Parte de PK: codigo_moneda';
-    COMMENT ON COLUMN CHSTS.cuenta_contable IS 'Parte de PK: cuenta_contable';
-    COMMENT ON COLUMN CHSTS.numero_cuenta IS 'Parte de PK: numero_cuenta';
-
-    -- DEVOL
-    COMMENT ON TABLE DEVOL IS 'Detalle de Cheques devueltos.';
-    LABEL ON TABLE DEVOL IS 'DEVOL - Cheques Devueltos';
-    COMMENT ON COLUMN DEVOL.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN DEVOL.numero_cheque IS 'Parte de PK: numero_cheque';
-
-    -- CMRIN
-    COMMENT ON TABLE CMRIN IS 'Detalle de Cámara Entrante.';
-    LABEL ON TABLE CMRIN IS 'CMRIN - Camara Entrante';
-    COMMENT ON COLUMN CMRIN.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CMRIN.sucursal_moneda IS 'Parte de PK: sucursal_moneda';
-    COMMENT ON COLUMN CMRIN.numero_cuenta IS 'Parte de PK: numero_cuenta';
-    COMMENT ON COLUMN CMRIN.monto IS 'Parte de PK: monto';
-
-    -- OVDRF
-    COMMENT ON TABLE OVDRF IS 'Archivo diario de Sobregiros.';
-    LABEL ON TABLE OVDRF IS 'OVDRF - Sobregiros';
-    COMMENT ON COLUMN OVDRF.id IS 'Parte de PK: id';
-
-    -- CNTRLMSG
-    COMMENT ON TABLE CNTRLMSG IS 'Mensajes a ser impresos en estados de cuenta.';
-    LABEL ON TABLE CNTRLMSG IS 'CNTRLMSG - Mensajes Estados';
-    COMMENT ON COLUMN CNTRLMSG.codigo_banco IS 'Parte de PK: codigo_banco';
-
-    -- CNTRLRTE
-    COMMENT ON TABLE CNTRLRTE IS 'Tabla de Tasas y Cargos por Servicio en Cuentas de Detalle.';
-    LABEL ON TABLE CNTRLRTE IS 'CNTRLRTE - Tasas/Cargos';
-    COMMENT ON COLUMN CNTRLRTE.codigo_banco IS 'Parte de PK: codigo_banco';
-    COMMENT ON COLUMN CNTRLRTE.tipo_producto IS 'Parte de PK: tipo_producto';
-    COMMENT ON COLUMN CNTRLRTE.codigo_tabla IS 'Parte de PK: codigo_tabla';
-
-    -- CNTRLDEV
-    COMMENT ON TABLE CNTRLDEV IS 'Definición de las Causales de Devolución de Cheques.';
-    LABEL ON TABLE CNTRLDEV IS 'CNTRLDEV - Causales Devolucion';
-    COMMENT ON COLUMN CNTRLDEV.codigo_causal IS 'Parte de PK: codigo_causal';
-
-    -- DEALS
-    COMMENT ON TABLE DEALS IS 'Maestro de Préstamos, Certificados, Giros, Valores al Cobro, Inversiones.';
-    LABEL ON TABLE DEALS IS 'DEALS - Contratos/Prestamos';
-    COMMENT ON COLUMN DEALS.id IS 'Parte de PK: id';
-
-    -- (resto de comentarios resumidos por brevedad)
-
-    -- ==============
-    -- Foreign Keys (validadas / propuestas)
-    -- ==============
-
-    -- FKs activas (validadas contra el DDL por nombre de columnas):
-    ALTER TABLE TRANS
-        ADD CONSTRAINT fk_trans_glbln
-        FOREIGN KEY (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable)
-        REFERENCES GLBLN (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable);
-
-    ALTER TABLE TTRAN
-        ADD CONSTRAINT fk_ttran_glbln
-        FOREIGN KEY (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable)
-        REFERENCES GLBLN (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable);
-
-    ALTER TABLE TRANS
-        ADD CONSTRAINT fk_trans_cumst
-        FOREIGN KEY (id_cliente)
-        REFERENCES CUMST (id_cliente);
-
-    ALTER TABLE CUMAD
-        ADD CONSTRAINT fk_cumad_cumst
-        FOREIGN KEY (id_cliente_operacion)
-        REFERENCES CUMST (id_cliente);
-
-    -- FKs propuestas (COMENTADAS) — requieren revisión de tipos/PKs antes de activar
-    -- PBTRN.numero_cuenta referencia a ACMST.id: tipos incompatibles (VARCHAR vs BIGINT) — revisar mapping
-    -- ALTER TABLE PBTRN
-    --     ADD CONSTRAINT fk_pbtrn_acmst
-    --     FOREIGN KEY (numero_cuenta)
-    --     REFERENCES ACMST (id);
-
-    -- TTRAN.numero_registro_relativo -> TRANS.numero_registro_relativo
-    -- Nota: `TRANS.numero_registro_relativo` no es PK/UNIQUE. Verificar requisito de unicidad o usar FK lógica alternativa.
-    -- ALTER TABLE TTRAN
-    --     ADD CONSTRAINT fk_ttran_trans_rel
-    --     FOREIGN KEY (numero_registro_relativo)
-    --     REFERENCES TRANS (numero_registro_relativo);
-
-    -- Para ver más propuestas y plantillas, consulte src/estructura_bd_fk_proposals.sql
-
-    COMMIT;
+    saldo_actual DECIMAL(18,2),
+    fecha_proceso_sistema TIMESTAMP,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
+    estado_registro CHAR(1),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (numero_del_lote, secuencia_dentro_del_lote)
+);
+CREATE INDEX idx_input_pk ON INPUT (numero_del_lote, secuencia_dentro_del_lote);
+CREATE INDEX idx_input_created_at ON INPUT (created_at);
+
+-- Table GLBLN
+CREATE TABLE GLBLN (
+    codigo_banco VARCHAR(20),
+    codigo_sucursal VARCHAR(20),
+    codigo_moneda VARCHAR(20),
+    cuenta_contable VARCHAR(24),
+    descripcion_cuenta VARCHAR(120),
+    saldo_actual DECIMAL(18,2),
+    fecha_proceso_sistema TIMESTAMP,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
+    estado_registro CHAR(1),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable)
+);
+CREATE INDEX idx_glbln_pk ON GLBLN (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable);
+CREATE INDEX idx_glbln_created_at ON GLBLN (created_at);
+
+-- Table GLBSE
+CREATE TABLE GLBSE (
+    id BIGINT,
+    descripcion VARCHAR(200),
+    fecha_consolidacion DATE,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
+    estado_registro CHAR(1),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
+);
+CREATE INDEX idx_glbse_pk ON GLBSE (id);
+CREATE INDEX idx_glbse_created_at ON GLBSE (created_at);
+
+-- Table GLFIN
+CREATE TABLE GLFIN (
+    id BIGINT,
+    nivel VARCHAR(50),
+    descripcion VARCHAR(200),
+    monto DECIMAL(18,2),
+    fecha_periodo DATE,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
+    estado_registro CHAR(1),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
+);
+CREATE INDEX idx_glfin_pk ON GLFIN (id);
+CREATE INDEX idx_glfin_created_at ON GLFIN (created_at);
+
+-- Table CCDSC
+CREATE TABLE CCDSC (
+    id BIGINT,
+    descripcion_cuenta VARCHAR(120),
+    naturaleza_cuenta VARCHAR(20),
+    nivel_cuenta VARCHAR(50),
+    saldo_actual DECIMAL(18,2),
+    fecha_proceso_sistema TIMESTAMP,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
+    estado_registro CHAR(1),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (id)
+);
+CREATE INDEX idx_ccdsc_pk ON CCDSC (id);
+CREATE INDEX idx_ccdsc_created_at ON CCDSC (created_at);
+
+-- Table INPT2
+CREATE TABLE INPT2 (
+    id BIGINT,
+    numero_lote VARCHAR(30),
+    secuencia INT,
+    descripcion_cuenta VARCHAR(120),
+    naturaleza_cuenta VARCHAR(20),
+    nivel_cuenta VARCHAR(50),
+    saldo_actual DECIMAL(18,2),
+    fecha_proceso_sistema TIMESTAMP,
+    observaciones VARCHAR(120),
+    usuario_creacion VARCHAR(30),
+    usuario_actualizacion VARCHAR(30),
+    version_registro INT,
     estado_registro CHAR(1),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
@@ -2983,117 +2669,5 @@ CREATE TABLE USERS (
 );
 CREATE INDEX idx_users_pk ON USERS (codigo_usuario, menu);
 CREATE INDEX idx_users_created_at ON USERS (created_at);
-
--- ========================
--- Metadata adicional y propuestas de FK (generado automáticamente)
--- Reemplace y ajuste según convención del proyecto antes de desplegar.
--- ========================
-
-/*
-Notas de integración:
-- Este bloque añade `COMMENT` y `LABEL` para facilitar trazabilidad y generación de documentación.
-- También incluye `ALTER TABLE ... ADD CONSTRAINT` para FK propuestas. Verificar tipos y datos existentes antes de aplicar en producción.
-*/
-
--- GLBLN (Balances Generales)
-COMMENT ON TABLE GLBLN IS 'Balances Generales — registro de saldos por banco, sucursal, moneda y cuenta contable.';
-LABEL ON TABLE GLBLN IS 'GLBLN - Cuentas Mayores';
-COMMENT ON COLUMN GLBLN.codigo_banco IS 'Código del banco (identificador).';
-COMMENT ON COLUMN GLBLN.codigo_sucursal IS 'Código de sucursal.';
-COMMENT ON COLUMN GLBLN.codigo_moneda IS 'Código de moneda.';
-COMMENT ON COLUMN GLBLN.cuenta_contable IS 'Cuenta contable (clave).';
-COMMENT ON COLUMN GLBLN.descripcion_cuenta IS 'Descripción de la cuenta.';
-LABEL ON COLUMN GLBLN.codigo_banco IS 'Banco';
-LABEL ON COLUMN GLBLN.codigo_sucursal IS 'Sucursal';
-LABEL ON COLUMN GLBLN.codigo_moneda IS 'Moneda';
-LABEL ON COLUMN GLBLN.cuenta_contable IS 'Cuenta Contable';
-
--- GLMST (Maestro de Cuentas Contables)
-COMMENT ON TABLE GLMST IS 'Maestro de cuentas contables — catálogo de cuentas y atributos (naturaleza, nivel).';
-LABEL ON TABLE GLMST IS 'GLMST - Maestro de Cuentas';
-COMMENT ON COLUMN GLMST.codigo_banco IS 'Código del banco.';
-COMMENT ON COLUMN GLMST.codigo_moneda IS 'Código de moneda.';
-COMMENT ON COLUMN GLMST.cuenta_contable IS 'Cuenta contable (clave).';
-LABEL ON COLUMN GLMST.cuenta_contable IS 'Cuenta Contable';
-
--- TRANS (Archivo histórico de transacciones)
-COMMENT ON TABLE TRANS IS 'Archivo histórico de transacciones — movimientos registrados en el sistema.';
-LABEL ON TABLE TRANS IS 'TRANS - Transacciones';
-COMMENT ON COLUMN TRANS.id_transaccion IS 'Identificador único de la transacción.';
-COMMENT ON COLUMN TRANS.numero_registro_relativo IS 'Número de registro relativo usado para trazabilidad entre sistemas.';
-COMMENT ON COLUMN TRANS.codigo_banco IS 'Código del banco (propuesta FK a GLBLN).';
-COMMENT ON COLUMN TRANS.codigo_sucursal IS 'Código de sucursal (propuesta FK a GLBLN).';
-COMMENT ON COLUMN TRANS.codigo_moneda IS 'Código de moneda (propuesta FK a GLBLN).';
-COMMENT ON COLUMN TRANS.cuenta_contable IS 'Cuenta contable (propuesta FK a GLBLN).';
-COMMENT ON COLUMN TRANS.id_cliente IS 'Identificador del cliente (propuesta FK a CUMST).';
-LABEL ON COLUMN TRANS.id_transaccion IS 'ID Transacción';
-
--- TTRAN (Transacciones del día)
-COMMENT ON TABLE TTRAN IS 'Transacciones del día — detalle diario de transacciones por corrida.';
-LABEL ON TABLE TTRAN IS 'TTRAN - Transacciones Día';
-COMMENT ON COLUMN TTRAN.id_transaccion_dia IS 'Identificador de la transacción diaria.';
-COMMENT ON COLUMN TTRAN.numero_registro_relativo IS 'Referencia relacional (posible vinculo a TRANS).';
-COMMENT ON COLUMN TTRAN.codigo_banco IS 'Código del banco (propuesta FK a GLBLN).';
-COMMENT ON COLUMN TTRAN.cuenta_contable IS 'Cuenta contable (propuesta FK a GLBLN).';
-LABEL ON COLUMN TTRAN.id_transaccion_dia IS 'ID Transacción Día';
-
--- CUMST (Maestro de clientes)
-COMMENT ON TABLE CUMST IS 'Maestro de clientes — registro identificatorio de clientes.';
-LABEL ON TABLE CUMST IS 'CUMST - Clientes';
-COMMENT ON COLUMN CUMST.id_cliente IS 'Identificador único del cliente.';
-LABEL ON COLUMN CUMST.id_cliente IS 'ID Cliente';
-
--- CUMAD (Direcciones y contactos de clientes)
-COMMENT ON TABLE CUMAD IS 'Direcciones y datos de contacto por cliente/operación.';
-LABEL ON TABLE CUMAD IS 'CUMAD - Direcciones Clientes';
-COMMENT ON COLUMN CUMAD.id_cliente_operacion IS 'Identificador del cliente u operación (propuesta FK a CUMST.id_cliente).';
-LABEL ON COLUMN CUMAD.id_cliente_operacion IS 'ID Cliente/Operación';
-
--- ACMST (Maestro de cuentas de detalle)
-COMMENT ON TABLE ACMST IS 'Maestro de cuentas de detalle — cuentas operativas y metadatos asociados.';
-LABEL ON TABLE ACMST IS 'ACMST - Cuentas Detalle';
-COMMENT ON COLUMN ACMST.id IS 'Identificador interno de la cuenta detalle.';
-LABEL ON COLUMN ACMST.id IS 'ID Cuenta';
-
--- PBTRN (Transacciones de libretas de ahorro)
-COMMENT ON TABLE PBTRN IS 'Transacciones de libretas de ahorro — movimientos por cuenta y fecha/hora.';
-LABEL ON TABLE PBTRN IS 'PBTRN - Libretas Transacciones';
-COMMENT ON COLUMN PBTRN.numero_cuenta IS 'Número de cuenta (sugerir FK a ACMST.id o mapping apropiado).';
-LABEL ON COLUMN PBTRN.numero_cuenta IS 'Número Cuenta';
-
-ALTER TABLE TRANS
-    ADD CONSTRAINT fk_trans_glbln
-    FOREIGN KEY (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable)
-    REFERENCES GLBLN (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable);
-
-ALTER TABLE TTRAN
-    ADD CONSTRAINT fk_ttran_glbln
-    FOREIGN KEY (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable)
-    REFERENCES GLBLN (codigo_banco, codigo_sucursal, codigo_moneda, cuenta_contable);
-
-ALTER TABLE TRANS
-    ADD CONSTRAINT fk_trans_cumst
-    FOREIGN KEY (id_cliente)
-    REFERENCES CUMST (id_cliente);
-
-ALTER TABLE CUMAD
-    ADD CONSTRAINT fk_cumad_cumst
-    FOREIGN KEY (id_cliente_operacion)
-    REFERENCES CUMST (id_cliente);
-
-ALTER TABLE PBTRN
-    ADD CONSTRAINT fk_pbtrn_acmst
-    FOREIGN KEY (numero_cuenta)
-    REFERENCES ACMST (id);
-
-ALTER TABLE TTRAN
-    ADD CONSTRAINT fk_ttran_trans_rel
-    FOREIGN KEY (numero_registro_relativo)
-    REFERENCES TRANS (numero_registro_relativo);
-
--- Indicaciones:
--- - Reemplazar textos y labels por descripciones completas tomadas del catálogo de datos.
--- - Si una FK propuesta no aplica para ciertos entornos, comentar la sentencia.
--- - Añadir RCDFMT y RENAME TABLE ... FOR SYSTEM NAME ... cuando aplique en IBM i.
 
 COMMIT;
